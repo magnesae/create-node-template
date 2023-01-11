@@ -1,27 +1,27 @@
 #!/usr/bin/env node
 
-import fs from 'fs';
-import path from 'path';
-import inquirer from 'inquirer';
-import chalk from 'chalk';
-import { render } from './utils/template.js';
-import { URL } from 'url';
-import shell from 'shelljs';
+import fs from "fs";
+import path from "path";
+import inquirer from "inquirer";
+import chalk from "chalk";
+import { render } from "./utils/template.js";
+import { URL } from "url";
+import shell from "shelljs";
 
-const __dirname = new URL('.', import.meta.url).pathname;
+const __dirname = decodeURI(new URL(".", import.meta.url).pathname);
 
-const CHOICES = fs.readdirSync(path.join(__dirname, 'templates'));
+const CHOICES = fs.readdirSync(path.join(__dirname, "templates"));
 const QUESTIONS = [
   {
-    name: 'template',
-    type: 'list',
-    message: 'What template would you like to use?',
+    name: "template",
+    type: "list",
+    message: "What template would you like to use?",
     choices: CHOICES,
   },
   {
-    name: 'name',
-    type: 'input',
-    message: 'Please input a new project name:',
+    name: "name",
+    type: "input",
+    message: "Please input a new project name:",
   },
 ];
 
@@ -35,10 +35,10 @@ export interface CliOptions {
 const CURR_DIR = process.cwd();
 
 inquirer.prompt(QUESTIONS).then((answers) => {
-  const projectChoice = answers['template'];
-  const projectName = answers['name'];
+  const projectChoice = answers["template"];
+  const projectName = answers["name"];
   //@ts-ignore
-  const templatePath = path.join(__dirname, 'templates', projectChoice);
+  const templatePath = path.join(__dirname, "templates", projectChoice);
   //@ts-ignore
   const tartgetPath = path.join(CURR_DIR, projectName);
 
@@ -73,7 +73,7 @@ function createProject(projectPath: string) {
   return true;
 }
 
-const SKIP_FILES = ['node_modules', '.template.json'];
+const SKIP_FILES = ["node_modules", ".template.json"];
 
 function createDirectoryContents(templatePath: string, projectName: string) {
   // read all files/folders (1 level) from template folder
@@ -90,11 +90,11 @@ function createDirectoryContents(templatePath: string, projectName: string) {
 
     if (stats.isFile()) {
       // read file content and transform it using template engine
-      let contents = fs.readFileSync(origFilePath, 'utf8');
+      let contents = fs.readFileSync(origFilePath, "utf8");
       contents = render(contents, { projectName });
       // write file to destination folder
       const writePath = path.join(CURR_DIR, projectName, file);
-      fs.writeFileSync(writePath, contents, 'utf8');
+      fs.writeFileSync(writePath, contents, "utf8");
     } else if (stats.isDirectory()) {
       // create folder in destination folder
       fs.mkdirSync(path.join(CURR_DIR, projectName, file));
@@ -108,10 +108,10 @@ function createDirectoryContents(templatePath: string, projectName: string) {
 }
 
 function postProcess(options: CliOptions) {
-  const isNode = fs.existsSync(path.join(options.templatePath, 'package.json'));
+  const isNode = fs.existsSync(path.join(options.templatePath, "package.json"));
   if (isNode) {
     shell.cd(options.tartgetPath);
-    const result = shell.exec('npm install');
+    const result = shell.exec("npm install");
     if (result.code !== 0) {
       return false;
     }
