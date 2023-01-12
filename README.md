@@ -4,10 +4,24 @@
 
 ```bash
 git clone "https://github.com/magnesae/BSL-Template-App.git"
+```
+
+```bash
 cd BSL-Template-App
+```
+
+```bash
 npm install
+```
+
+```bash
 npm run build
+```
+
+```bash
 npm link
-cd EXAMPLE/DIR
-bsl-template-app
+```
+
+```bash
+cd EXAMPLE/DIR && bsl-template-app
 ```
