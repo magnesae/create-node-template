@@ -8,7 +8,7 @@ export abstract class ApiResponse {
 
   protected constructor(value: unknown, message?: string, status?: string) {
     this.status = status || "undefined";
-    this.message = message || null;
+    this.message = message || "undefined";
     this.value = value;
   }
 }
