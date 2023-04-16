@@ -10,6 +10,6 @@ const doc = {
 };
 
 const outputFile = "../../src/swagger/swagger-output.json";
-const endpointsFiles = ["../index.js"];
+const endpointsFiles = ["../../src/index.ts"];
 
 swaggerAutogen({ openapi: "3.0.0" })(outputFile, endpointsFiles, doc);

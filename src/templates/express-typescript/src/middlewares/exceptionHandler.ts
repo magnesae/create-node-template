@@ -11,7 +11,11 @@ const exceptionHandler = (
   res: Response,
   next: NextFunction,
 ) => {
-  Logger.error(`ExceptionHandler : [${err.message}] : ${JSON.stringify(err)}`);
+  Logger.error(
+    `ExceptionHandler : [${err.message}] : ${JSON.stringify(err)} : ${
+      err.stack
+    }`,
+  );
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
 

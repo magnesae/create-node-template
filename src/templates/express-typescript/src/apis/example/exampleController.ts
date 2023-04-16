@@ -15,4 +15,11 @@ export const getTest: RequestHandler = async (_, res) => {
   res.status(StatusCodes.OK).send(response);
 };
 
+export const getExampleIds: RequestHandler = async (_, res) => {
+  const example = await ExampleService.getExampleIds(1);
+  Logger.info("Logger getTest example");
+  const response = new SuccessResponse(null, JSON.stringify(example));
+  res.status(StatusCodes.OK).send(response);
+};
+
 /***** Post  *****/

@@ -24,6 +24,7 @@ app.use(cors(corsOptions));
 app.use(morganMiddleware);
 
 // Routes
+// prettier-ignore
 app.use("/example", exampleRoutes);
 
 // Define a route handler for the default home page

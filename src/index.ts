@@ -8,9 +8,15 @@ import { render } from "./utils/template.js";
 import { URL } from "url";
 import shell from "shelljs";
 
-const __dirname = decodeURI(new URL(".", import.meta.url).pathname);
+let __dirname = decodeURI(new URL(".", import.meta.url).pathname);
 
-const CHOICES = fs.readdirSync(path.join(__dirname, "templates"));
+// Checks if the path starts with a slash, in case of Windows OS
+__dirname = __dirname.startsWith("/") ? __dirname.substring(1) : __dirname;
+
+const CHOICES = fs.readdirSync(
+  path.join(__dirname, "templates").split(path.sep).join("/"),
+);
+
 const QUESTIONS = [
   {
     name: "template",
@@ -151,8 +157,14 @@ function postProcess(options: CliOptions) {
   if (isNode) {
     shell.cd(options.targetPath);
     shell.echo("\nInstalling npm packages ...");
+
     const result = shell.exec("npm install");
     if (result.code !== 0) {
+      return false;
+    }
+
+    const prismaResult = shell.exec("npx prisma generate");
+    if (prismaResult.code !== 0) {
       return false;
     }
   }
