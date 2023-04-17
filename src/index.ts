@@ -11,7 +11,10 @@ import shell from "shelljs";
 let __dirname = decodeURI(new URL(".", import.meta.url).pathname);
 
 // Checks if the path starts with a slash, in case of Windows OS
-__dirname = __dirname.startsWith("/") ? __dirname.substring(1) : __dirname;
+__dirname =
+  __dirname.startsWith("/") && process.platform === "win32"
+    ? __dirname.substring(1)
+    : __dirname;
 
 const CHOICES = fs.readdirSync(
   path.join(__dirname, "templates").split(path.sep).join("/"),
