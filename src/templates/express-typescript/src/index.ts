@@ -48,9 +48,12 @@ app.all("*", (req: Request, res: Response) => {
 });
 
 // Start the Express server, default port is 3000 if not stated in env
-app.listen(PORT, () => {
-  console.log(`Server started at http://localhost:${PORT}`);
+const httpServer = app.listen(PORT, () => {
+  Logger.info(`Server started at http://localhost:${PORT}`);
 });
+
+process.on("SIGTERM", () => httpServer.close());
+process.on("SIGINT", () => httpServer.close());
 
 // Exception handler
 app.use(exceptionHandler);
