@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 
 export const eoaValidation = (value: any, helpers: any) => {
-  if (!ethers.utils.isAddress(value)) {
+  if (!ethers.isAddress(value)) {
     return helpers.message("Invalid Address");
   }
 };
